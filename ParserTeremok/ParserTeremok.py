@@ -52,18 +52,37 @@ class ParserTeremok:
         for category in self.products_links:
             self.products_info[category] = []
             for url in self.products_links[category]:
-                info_dict = dict.fromkeys(['Название продукта', 'Описание', 'Мера'])
+                info_dict = dict.fromkeys(['Название продукта', 'Описание', 'Мера', 'Цена'])
                 self.browser.get(url)
                 WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'b-detail-product__info-body')))
 
                 product_name = self.browser.find_element(By.CSS_SELECTOR, '.b-detail-product__title > h1').text
                 info_dict['Название продукта'] = product_name
+                print(product_name)
 
                 product_description = self.browser.find_element(By.CSS_SELECTOR, '.b-detail-product__title > p').text
                 info_dict['Описание'] = product_description if product_description else None
 
                 weight = self.browser.find_element(By.CSS_SELECTOR, '.b-detail-product__info-row--header > .b-detail-product__info-cell:nth-child(2)').text
                 info_dict['Мера'] = weight
+
+                self.browser.find_element(By.CSS_SELECTOR, '.b-btn.b-btn--red.b-price__controls-item').click()
+                try:
+                    locator = (By.XPATH, '//li[.//text()[contains(., "Звездочка Юго-Западная")]]')
+                    WebDriverWait(self.browser, 10).until(EC.presence_of_element_located(locator))
+                    self.browser.find_element(*locator).click()
+                except Exception as e:
+                    locator = (By.CSS_SELECTOR, 'li.b-search-result__item')
+                    WebDriverWait(self.browser, 10).until(EC.presence_of_element_located(locator))
+                    self.browser.find_element(By.CSS_SELECTOR, 'li.b-search-result__item').click()
+
+                try:
+                    price_locator = (By.CLASS_NAME, 'b-restaurant__price')
+                    WebDriverWait(self.browser, 5).until(EC.presence_of_element_located(price_locator))
+                    price = self.browser.find_element(*price_locator).text
+                    info_dict['Цена'] = price
+                except Exception as e:
+                    pass
 
                 rows = self.browser.find_elements(By.CSS_SELECTOR, 'div.b-detail-product__info-row:not(.b-detail-product__info-row--header)')
                 for row in rows:
@@ -80,9 +99,6 @@ class ParserTeremok:
         print(f'Количество категорий: {len(self.products_links)}')
         print(self.products_links)
 
-    def print_products_info(self):
-        print(self.products_info)
-
     def save_to_json(self, json_name):
         with open(json_name, 'w', encoding = 'utf-8') as file:
             json.dump(self.products_info, file, ensure_ascii=False, indent = 4)
@@ -94,6 +110,5 @@ if __name__ == "__main__":
         parser.get_products_urls('https://teremok.ru/menu/category/novinki/')
         parser.parse_products()
         parser.print_products_links()
-        parser.print_products_info()
-        parser.save_to_json('teremok.json')
+        parser.save_to_json('teremok_two.json')
     print(f'Время выполнения скрипта: {time.perf_counter() - start} секунд')
