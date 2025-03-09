@@ -54,7 +54,7 @@ class ParserTeremok:
             for url in self.products_links[category]:
                 info_dict = dict.fromkeys(['Название продукта', 'Описание', 'Мера', 'Цена'])
                 self.browser.get(url)
-                WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'b-detail-product__info-body')))
+                WebDriverWait(self.browser, 5).until(EC.presence_of_element_located((By.CLASS_NAME, 'b-detail-product__info-body')))
 
                 product_name = self.browser.find_element(By.CSS_SELECTOR, '.b-detail-product__title > h1').text
                 info_dict['Название продукта'] = product_name
@@ -69,11 +69,11 @@ class ParserTeremok:
                 self.browser.find_element(By.CSS_SELECTOR, '.b-btn.b-btn--red.b-price__controls-item').click()
                 try:
                     locator = (By.XPATH, '//li[.//text()[contains(., "Звездочка Юго-Западная")]]')
-                    WebDriverWait(self.browser, 10).until(EC.presence_of_element_located(locator))
+                    WebDriverWait(self.browser, 5).until(EC.presence_of_element_located(locator))
                     self.browser.find_element(*locator).click()
                 except Exception as e:
                     locator = (By.CSS_SELECTOR, 'li.b-search-result__item')
-                    WebDriverWait(self.browser, 10).until(EC.presence_of_element_located(locator))
+                    WebDriverWait(self.browser, 5).until(EC.presence_of_element_located(locator))
                     self.browser.find_element(By.CSS_SELECTOR, 'li.b-search-result__item').click()
 
                 try:
