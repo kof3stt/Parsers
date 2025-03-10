@@ -19,25 +19,24 @@
 Так как репозиторий содержит несколько парсеров, для работы с **Munchkin**-парсером выполните следующие шаги:
 
 1. **Клонируйте весь репозиторий**  
-   \`\`\`bash
-   git clone [https://github.com/yourusername/pdfparser-munchkin.git](https://github.com/kof3stt/Parsers.git)
-   cd pdfparser-munchkin
-   \`\`\`
+   ```
+   git clone https://github.com/kof3stt/Parsers.git
+   ```
 
 2. **Перейдите в директорию с парсером Munchkin**  
-   \`\`\`bash
+   ```
    cd Parsers/ParserMunchkinPDF
-   \`\`\`
+   ```
 
 3. **Установите зависимости, указанные в requirements.txt**
-   \`\`\`bash
+   ```
    pip install -r requirements.txt
-   \`\`\`
+   ```
 
 4. **Запустите парсер**
-   \`\`\`bash
+   ```
    python ParserMunchkin.py
-   \`\`\`
+   ```
 
 ## Использование
 
@@ -101,7 +100,3 @@
   - \`PyMuPDF (fitz)\`
   - \`Pandas\`
   - \`Pillow\`
-
-## Контакты
-
-Автор: **Кликушин Влад**  
