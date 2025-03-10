@@ -27,7 +27,7 @@
    git clone https://github.com/kof3stt/Parsers.git
    ```
 
-2. **Перейдите в директорию с парсером Munchkin**  
+2. **Перейдите в директорию с парсером ExchangeRates**  
    ```
    cd Parsers/ExchangeRatesCB
    ```
