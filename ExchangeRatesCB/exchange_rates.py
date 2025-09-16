@@ -2,6 +2,7 @@ import requests
 from fake_useragent import UserAgent
 from pandas import DataFrame
 from datetime import date
+from enum import Enum
 
 
 headers = {
@@ -10,6 +11,29 @@ headers = {
 }
 
 url = 'https://cbr.ru/cursonweek'
+
+
+class Currencies(str, Enum):
+    CNY = 'R01375'
+    USD = 'R01235'
+    EUR = 'R01239'
+
+
+def get_exchange_rate(currency: Currencies) -> float:
+    """
+    Получает текущий курс валюты с сайта Центробанка РФ
+    
+    :param currency: Валюта из перечисления Currencies
+    :return: Текущий курс валюты
+    """
+    url = 'https://cbr.ru/cursonweek'
+    params = {'DT': '', 'val_id': currency.value}
+    response = requests.get(url, headers=headers, params=params).json()[0]
+    return float(response['curs'])
+
+
+print(get_exchange_rate(Currencies.CNY))
+
 
 currencies = [
     {'name': 'CNY, 1¥', 'val_id': 'R01375'},

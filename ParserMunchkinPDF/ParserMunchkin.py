@@ -256,4 +256,4 @@ if __name__ == '__main__':
     print('\033[92mКарты дверей:\033[0m')
     print(df_door_cards.to_markdown())
 
-    parser.load_cards('muchkin.json', door_cards, treasure_cards)
+    parser.load_cards('muchkin_1.json', door_cards, treasure_cards)
